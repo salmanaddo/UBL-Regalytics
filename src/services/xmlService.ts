@@ -8,7 +8,5 @@ export interface XmlGeneratorParams {
 }
 
 export const generateXml = async (params: XmlGeneratorParams) => {
-  return api.post("/generate_xml", params, {
-    responseType: "blob",
-  });
+  return api.post<{ xml: string }>("/generate_xml", params);
 };

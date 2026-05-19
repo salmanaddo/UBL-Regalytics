@@ -44,7 +44,9 @@ const XmlGenerator = () => {
                 from_date: fromDate || null,
                 to_date: toDate || null,
             });
-            setXmlBlob(response.data as Blob);
+            const xmlString = response.data.xml;
+            const blob = new Blob([xmlString], { type: 'application/xml' });
+            setXmlBlob(blob);
             setGeneratedAccount(accountNumber.trim());
         } catch {
             setErrorMessage('Failed to generate XML. Please try again.');
@@ -58,7 +60,7 @@ const XmlGenerator = () => {
         const url = URL.createObjectURL(xmlBlob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `account_${generatedAccount}.xml`;
+        a.download = `${generatedAccount}.xml`;
         a.click();
         URL.revokeObjectURL(url);
     };
