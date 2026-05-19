@@ -20,23 +20,19 @@ const NavBar = ({ isFocusMode, onFocusToggle }: NavBarProps) => {
     const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
     const role = (localStorage.getItem('userRole') as UserRole | null) ?? null;
     const isSuperAdmin = role === 'superAdmin';
-    const isUploadActive = location.pathname.startsWith('/upload');
+    const isXmlGeneratorActive = location.pathname.startsWith('/xml-generator');
     const isHomeActive =
         location.pathname.startsWith('/home') ||
         location.pathname.startsWith('/conversation');
     const canUseSummaryToggle = !isSuperAdmin || isHomeActive;
 
-    const handleAdminViewChange = (view: 'home' | 'upload') => {
-        if (view === 'home') {
-            navigate('/home');
-        } else {
-            navigate('/upload');
-        }
+    const handleAdminViewChange = (view: 'home' | 'upload' | 'xml-generator') => {
+        navigate(`/${view}`);
         setIsOpen(false);
     };
 
     const toDefaultRoute = () => {
-        navigate(isSuperAdmin ? '/upload' : '/home');
+        navigate(isSuperAdmin ? '/xml-generator' : '/home');
     };
 
     const handleLogout = () => {
@@ -57,17 +53,17 @@ const NavBar = ({ isFocusMode, onFocusToggle }: NavBarProps) => {
         }
     };
 
-    const handleOpenUploadModal = () => {
-        setIsUploadModalOpen(true);
-        if (isOpen) {
-            setIsOpen(false);
-        }
-    };
+    // const handleOpenUploadModal = () => {
+    //     setIsUploadModalOpen(true);
+    //     if (isOpen) {
+    //         setIsOpen(false);
+    //     }
+    // };
 
     return (
         <nav className='border-bottom border-secondary'>
             <div className="navbar-left">
-                <img src={logo} alt="UBL Logo" className="logo" onClick={toDefaultRoute} /> BCA Chatbot
+                <img src={logo} alt="UBL Logo" className="logo" onClick={toDefaultRoute} /> Regalytics
             </div>
 
             <div className="hamburger" onClick={() => setIsOpen(!isOpen)}>
@@ -89,7 +85,7 @@ const NavBar = ({ isFocusMode, onFocusToggle }: NavBarProps) => {
 
                 {isSuperAdmin && (
                     <div className="admin-view-toggle" role="group" aria-label="Admin interface toggle">
-                        <button
+                        {/* <button
                             type="button"
                             className={`toggle-btn ${isUploadActive ? 'active' : ''}`}
                             onClick={() => handleAdminViewChange('upload')}
@@ -104,11 +100,19 @@ const NavBar = ({ isFocusMode, onFocusToggle }: NavBarProps) => {
                             aria-pressed={isHomeActive}
                         >
                             Home
+                        </button> */}
+                        <button
+                            type="button"
+                            className={`toggle-btn ${isXmlGeneratorActive ? 'active' : ''}`}
+                            onClick={() => handleAdminViewChange('xml-generator')}
+                            aria-pressed={isXmlGeneratorActive}
+                        >
+                            XML Generator
                         </button>
                     </div>
                 )}
 
-                {isSuperAdmin && (
+                {/* {isSuperAdmin && (
                     <button
                         type="button"
                         className="upload-image-btn"
@@ -116,7 +120,7 @@ const NavBar = ({ isFocusMode, onFocusToggle }: NavBarProps) => {
                     >
                         Smart FinOCR
                     </button>
-                )}
+                )} */}
 
                 <UserProfile onLogout={handleLogout} />
 

@@ -73,7 +73,7 @@ const Login = () => {
                     });
 
                     setTimeout(() => {
-                        navigate('/home');
+                        navigate('/xml-generator');
                     }, 2000);
                 } else {
                     toast.error('Invalid email or password.', {

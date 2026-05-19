@@ -6,15 +6,13 @@ import HomePage from './pages/Home/home';
 import Login from './pages/Login/login';
 import Chat from './pages/Chat/chat';
 import NotFound from './pages/NotFound/notfound';
-import Upload from './pages/Upload/upload';
+// import Upload from './pages/Upload/upload';
+import XmlGenerator from './pages/XmlGenerator/xml-generator';
 import { type UserRole } from './types/auth';
 
 const getDefaultRouteForRole = (role: UserRole | null) => {
-  if (role === 'superAdmin') {
-    return '/upload';
-  }
-  if (role === 'standard') {
-    return '/home';
+  if (role === 'superAdmin' || role === 'standard') {
+    return '/xml-generator';
   }
   return '/login';
 };
@@ -54,17 +52,21 @@ function App() {
               path="/conversation"
               element={<Chat userInput={userInput} />}
             />
+            <Route
+              path="/xml-generator"
+              element={<XmlGenerator />}
+            />
           </Route>
         </Route>
 
-        <Route element={<RequireRole allowedRoles={['superAdmin']} />}>
+        {/* <Route element={<RequireRole allowedRoles={['superAdmin']} />}>
           <Route element={<MainLayout />}>
             <Route
               path="/upload"
               element={<Upload />}
             />
           </Route>
-        </Route>
+        </Route> */}
 
         <Route path="*" element={<NotFound />} />
 
